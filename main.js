@@ -16,9 +16,9 @@ let tray;
 function createWindow() {
   win = new BrowserWindow({
     width: 700,
-    height: 600,
+    height: 650,
     frame: false,
-    resizable: false,
+    resizable: true,
     transparent: false,
     alwaysOnTop: false,
     icon: path.join(__dirname, 'assets/icons/favicon.ico'),
@@ -32,6 +32,7 @@ function createWindow() {
   });
   win.menuBarVisible = false;
   win.loadFile(path.join(__dirname, 'index.html'));
+  // win.webContents.openDevTools();
 
 
 

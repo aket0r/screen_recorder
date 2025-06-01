@@ -10,6 +10,8 @@ let mediaRecorder;
 
 
 async function startRecording() {
+  startButton.disabled = true;
+  stopButton.disabled = false;
   const stream = await navigator.mediaDevices.getDisplayMedia({
     video: {
       width: 1920,
@@ -58,6 +60,8 @@ async function startRecording() {
 
 startButton.addEventListener('click', startRecording);
 stopButton.addEventListener('click', () => {
+  startButton.disabled = false;
+  stopButton.disabled = true;
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     mediaRecorder.stop();
     video.pause();
