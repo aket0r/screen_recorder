@@ -1,4 +1,4 @@
-console.log('[preload] loaded');
+console.log('Renderer process loaded');
 
 
 const { contextBridge, desktopCapturer, ipcRenderer } = require('electron');

@@ -4,12 +4,9 @@ const fs = require('fs');
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-const isVideoPath = fs.existsSync(path.join(__dirname, 'videos')) || fs.mkdirSync(path.join(__dirname, 'videos'));
-if (!isVideoPath) {
-  console.error('Failed to create videos directory');
-  fs.mkdirSync(path.join(__dirname, 'videos'), { recursive: true });
-  sleep(200);
+const saveDir = path.join(process.cwd(), 'videos');
+if (!fs.existsSync(saveDir)) {
+  fs.mkdirSync(saveDir, { recursive: true });
 }
 
 let win;
@@ -35,10 +32,10 @@ function createWindow() {
   });
   win.menuBarVisible = false;
   win.loadFile(path.join(__dirname, 'index.html'));
-  win.webContents.openDevTools();
 
 
-  tray = new Tray(__dirname, 'assets/icons/favicon.ico');
+
+  tray = new Tray(path.join(__dirname, 'assets/icons/favicon.ico'));
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Start Recording', click: () => {
       win.webContents.send('start-recording');
@@ -73,7 +70,7 @@ app.whenReady().then(() => {
 });
 
 ipcMain.on('save-video', async (event, buffer) => {
-  const saveDir = path.join(__dirname, 'videos');
+  const saveDir = path.join(process.cwd(), 'videos');
   if (!fs.existsSync(saveDir)) {
     fs.mkdirSync(saveDir);
   }
