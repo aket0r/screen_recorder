@@ -22,7 +22,6 @@
 |---------------------|--------------------|
 | Ctrl + Shift + S    | Start recording    |
 | Ctrl + Shift + E    | Stop recording     |
-| Ctrl + Shift + T    | Toggle timer       |
 
 ---
 
