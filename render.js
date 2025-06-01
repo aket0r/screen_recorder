@@ -7,15 +7,26 @@ const video = document.querySelector('video');
 let recordedChunks = [];
 let mediaRecorder;
 
+
+
 async function startRecording() {
-
-
+  startButton.disabled = true;
+  stopButton.disabled = false;
   const stream = await navigator.mediaDevices.getDisplayMedia({
-    audio: true,
     video: {
       width: 1920,
       height: 1080,
-      frameRate: 60
+      frameRate: 120
+    },
+    audio: {
+      deviceId: 'default',
+      autoGainControl: false,
+      echoCancellation: false,
+      noiseSuppression: false,
+      sampleRate: 48000,
+      sampleSize: 16,
+      channelCount: 2,
+      volume: 1.0
     }
   });
 
@@ -25,7 +36,12 @@ async function startRecording() {
 
   recordedChunks = [];
 
-  mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+  mediaRecorder = new MediaRecorder(stream, 
+    { 
+      mimeType: 'video/webm;codecs=vp9,opus', 
+      audioBitsPerSecond: 320000, 
+      videoBitsPerSecond: 4000000 
+    });
 
   mediaRecorder.ondataavailable = (e) => {
     if (e.data.size > 0) {
@@ -44,6 +60,8 @@ async function startRecording() {
 
 startButton.addEventListener('click', startRecording);
 stopButton.addEventListener('click', () => {
+  startButton.disabled = false;
+  stopButton.disabled = true;
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     mediaRecorder.stop();
     video.pause();
