@@ -15,7 +15,7 @@ async function startRecording() {
     video: {
       width: 1920,
       height: 1080,
-      frameRate: 60
+      frameRate: 120
     }
   });
 
@@ -25,7 +25,7 @@ async function startRecording() {
 
   recordedChunks = [];
 
-  mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+  mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm', audioBitsPerSecond: 128000, videoBitsPerSecond: 2500000 });
 
   mediaRecorder.ondataavailable = (e) => {
     if (e.data.size > 0) {
